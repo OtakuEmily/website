@@ -9,6 +9,8 @@ import react from "@astrojs/react";
 
 import playformCompress from "@playform/compress";
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://emily.kemonomimi.moe",
@@ -42,5 +44,5 @@ export default defineConfig({
     domains: ["forge.kemonomimi.moe", "stoat.chat"],
   },
 
-  integrations: [svelte(), react(), playformCompress()],
+  integrations: [svelte(), react(), playformCompress(), sitemap()],
 });

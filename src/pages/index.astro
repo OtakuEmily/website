@@ -5,7 +5,33 @@ import Contact from "../components/Contact.astro";
 import NowPlaying from "../components/NowPlaying.svelte";
 ---
 
-<Layout title="Home">
+<Layout
+  title="Home"
+  seo={{
+    description:
+      "Emily is an indie developer, photographer, and game development student in South Australia.",
+    titleSuffix: "Emily",
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Emily",
+      alternateName: "OtakuEmily",
+      jobTitle: "Indie Developer",
+      description:
+        "Indie developer, photographer, and game development student in South Australia.",
+      address: {
+        "@type": "PostalAddress",
+        addressRegion: "South Australia",
+        addressCountry: "AU",
+      },
+      sameAs: [
+        "https://forge.kemonomimi.moe/emily",
+        "https://social.kemonomimi.moe/@emily",
+        "https://pixelfed.social/otakuemily",
+      ],
+    },
+  }}
+>
   <section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-16">
     <div class="grid gap-8 lg:grid-cols-[1.35fr_0.95fr] lg:gap-10">
       <div class="min-w-0 space-y-6">

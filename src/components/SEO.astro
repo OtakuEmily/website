@@ -1,0 +1,95 @@
+---
+// TODO: Clean up component, this is just a rough prototype by AI that requires refining at a later date
+
+type MetaTag = {
+  name?: string;
+  property?: string;
+  content: string;
+};
+
+type LinkTag = {
+  rel: string;
+  href: string;
+  type?: string;
+  sizes?: string;
+};
+
+type Props = {
+  title?: string;
+  titleSuffix?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: string;
+  twitterCard?: "summary" | "summary_large_image";
+  locale?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  extraMeta?: MetaTag[];
+  extraLinks?: LinkTag[];
+};
+
+const {
+  title,
+  titleSuffix = "Emily",
+  description,
+  canonical,
+  image,
+  imageAlt = "",
+  type = "website",
+  twitterCard,
+  locale = "en_AU",
+  noindex = false,
+  nofollow = false,
+  structuredData,
+  extraMeta = [],
+  extraLinks = [],
+} = Astro.props as Props;
+
+const site = Astro.site ?? Astro.url;
+const pageUrl = new URL(Astro.url.pathname, site).href;
+const canonicalUrl = canonical ? new URL(canonical, site).href : pageUrl;
+const pageTitle = title ? (titleSuffix ? `${title} | ${titleSuffix}` : title) : titleSuffix;
+const robots = `${noindex ? "noindex" : "index"},${nofollow ? "nofollow" : "follow"}`;
+const card = twitterCard ?? (image ? "summary_large_image" : "summary");
+const descriptionContent = description ?? "Indie developer, photographer, and game development student in South Australia.";
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={descriptionContent} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonicalUrl} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:site_name" content={titleSuffix} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={descriptionContent} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:locale" content={locale} />
+
+<meta name="twitter:card" content={card} />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={descriptionContent} />
+
+{image && <meta property="og:image" content={new URL(image, site).href} />}
+{image && <meta name="twitter:image" content={new URL(image, site).href} />}
+{image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+
+{extraMeta.map((tag) =>
+  tag.name ? (
+    <meta name={tag.name} content={tag.content} />
+  ) : (
+    <meta property={tag.property} content={tag.content} />
+  )
+)}
+
+{extraLinks.map((tag) => (
+  <link rel={tag.rel} href={tag.href} type={tag.type} sizes={tag.sizes} />
+))}
+
+{structuredData && (
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+)}
