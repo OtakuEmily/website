@@ -51,10 +51,16 @@ const {
 const site = Astro.site ?? Astro.url;
 const pageUrl = new URL(Astro.url.pathname, site).href;
 const canonicalUrl = canonical ? new URL(canonical, site).href : pageUrl;
-const pageTitle = title ? (titleSuffix ? `${title} | ${titleSuffix}` : title) : titleSuffix;
+const pageTitle = title
+  ? titleSuffix
+    ? `${title} | ${titleSuffix}`
+    : title
+  : titleSuffix;
 const robots = `${noindex ? "noindex" : "index"},${nofollow ? "nofollow" : "follow"}`;
 const card = twitterCard ?? (image ? "summary_large_image" : "summary");
-const descriptionContent = description ?? "Indie developer, photographer, and game development student in South Australia.";
+const descriptionContent =
+  description ??
+  "Indie developer, photographer, and game development student in South Australia.";
 ---
 
 <title>{pageTitle}</title>
@@ -78,18 +84,27 @@ const descriptionContent = description ?? "Indie developer, photographer, and ga
 {image && <meta name="twitter:image" content={new URL(image, site).href} />}
 {image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
 
-{extraMeta.map((tag) =>
-  tag.name ? (
-    <meta name={tag.name} content={tag.content} />
-  ) : (
-    <meta property={tag.property} content={tag.content} />
+{
+  extraMeta.map((tag) =>
+    tag.name ? (
+      <meta name={tag.name} content={tag.content} />
+    ) : (
+      <meta property={tag.property} content={tag.content} />
+    ),
   )
-)}
+}
 
-{extraLinks.map((tag) => (
-  <link rel={tag.rel} href={tag.href} type={tag.type} sizes={tag.sizes} />
-))}
+{
+  extraLinks.map((tag) => (
+    <link rel={tag.rel} href={tag.href} type={tag.type} sizes={tag.sizes} />
+  ))
+}
 
-{structuredData && (
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-)}
+{
+  structuredData && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+    />
+  )
+}
