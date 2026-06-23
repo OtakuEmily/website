@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  // TODO (Emily): Rewrite component logic to replace AI prototyping
+  import { onDestroy, onMount } from "svelte";
   import { fade } from "svelte/transition";
   import defaultArtworkUrl from '../assets/images/vibe.gif';
 
@@ -11,18 +12,83 @@
   export let artworkAlt = `Album artwork for ${artist} - ${album}`;
   export let isPlaying = false;
 
+  const artworkFetchTimeoutMs = 15_000;
+  let artworkObjectUrl: string | null = null;
+  let artworkRequestId = 0;
+  let refreshRequestId = 0;
+
+  function applyNowPlayingState(nextState: {
+    title: string;
+    artist: string;
+    album: string;
+    artworkUrl: string;
+    artworkAlt: string;
+    isPlaying: boolean;
+  }) {
+    const previousArtworkUrl = artworkObjectUrl;
+    const nextArtworkUrl = nextState.artworkUrl;
+
+    title = nextState.title;
+    artist = nextState.artist;
+    album = nextState.album;
+    artworkAlt = nextState.artworkAlt;
+    isPlaying = nextState.isPlaying;
+
+    artworkUrl = nextArtworkUrl;
+    artworkObjectUrl = nextArtworkUrl.startsWith("blob:") ? nextArtworkUrl : null;
+
+    if (previousArtworkUrl && previousArtworkUrl !== artworkObjectUrl) {
+      URL.revokeObjectURL(previousArtworkUrl);
+    }
+  }
+
+  async function loadArtwork(remoteUrl: string) {
+    const requestId = ++artworkRequestId;
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), artworkFetchTimeoutMs);
+
+    try {
+      const response = await fetch(remoteUrl, { signal: controller.signal });
+
+      if (!response.ok) {
+        throw new Error(`Artwork request failed with ${response.status}`);
+      }
+
+      const blob = await response.blob();
+
+      if (requestId !== artworkRequestId) {
+        return null;
+      }
+
+      return URL.createObjectURL(blob);
+    } catch {
+      return null;
+    } finally {
+      window.clearTimeout(timeout);
+      controller.abort();
+    }
+  }
+
   async function refresh() {
+    const requestId = ++refreshRequestId;
     const res = await fetch(
       "https://api.listenbrainz.org/1/user/puppyemily/playing-now",
     ).then((res) => res.json());
 
+    if (requestId !== refreshRequestId) {
+      return;
+    }
+
     if (!(res?.payload?.playing_now ?? false)) {
-      title = "Nothing";
-      artist = "No track is currently playing";
-      album = "";
-      artworkUrl = defaultArtworkUrl.src;
-      artworkAlt = "No track is currently playing";
-      isPlaying = false;
+      applyNowPlayingState({
+        title: "Nothing",
+        artist: "No track is currently playing",
+        album: "",
+        artworkUrl: defaultArtworkUrl.src,
+        artworkAlt: "No track is currently playing",
+        isPlaying: false,
+      });
       return;
     }
 
@@ -30,21 +96,55 @@
     const track = listen?.track_metadata;
 
     if (!track) {
-      title = "Nothing";
-      artist = "A track was recently played...";
-      album = "";
-      artworkUrl = defaultArtworkUrl.src;
-      artworkAlt = "A track was recently played...";
-      isPlaying = false;
+      applyNowPlayingState({
+        title: "Nothing",
+        artist: "A track was recently played...",
+        album: "",
+        artworkUrl: defaultArtworkUrl.src,
+        artworkAlt: "A track was recently played...",
+        isPlaying: false,
+      });
       return;
     }
 
-    title = track.track_name ?? "Nothing";
-    album = track.track_name === track.release_name ? "" : track.release_name;
-    artist = track.artist_name ?? "";
-    artworkUrl = `https://coverartarchive.org/release/${track.additional_info?.release_mbid}/front`;
-    artworkAlt = `Album artwork for ${artist} - ${album}`;
-    isPlaying = true;
+    const nextTitle = track.track_name ?? "Nothing";
+    const nextAlbum = track.track_name === track.release_name ? "" : track.release_name;
+    const nextArtist = track.artist_name ?? "";
+    const releaseMbid = track.additional_info?.release_mbid;
+    const remoteArtworkUrl = releaseMbid
+      ? `https://coverartarchive.org/release/${releaseMbid}/front`
+      : "";
+    const nextArtworkAlt = `Album artwork for ${nextArtist} - ${nextAlbum}`;
+
+    if (!remoteArtworkUrl) {
+      applyNowPlayingState({
+        title: nextTitle,
+        artist: nextArtist,
+        album: nextAlbum,
+        artworkUrl: defaultArtworkUrl.src,
+        artworkAlt: nextArtworkAlt,
+        isPlaying: true,
+      });
+      return;
+    }
+
+    const nextArtworkUrl = (await loadArtwork(remoteArtworkUrl)) ?? defaultArtworkUrl.src;
+
+    if (requestId !== refreshRequestId) {
+      if (nextArtworkUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(nextArtworkUrl);
+      }
+      return;
+    }
+
+    applyNowPlayingState({
+      title: nextTitle,
+      artist: nextArtist,
+      album: nextAlbum,
+      artworkUrl: nextArtworkUrl,
+      artworkAlt: nextArtworkAlt,
+      isPlaying: true,
+    });
   }
 
   onMount(() => {
@@ -52,6 +152,13 @@
     const timer = window.setInterval(refresh, 50_000);
 
     return () => window.clearInterval(timer);
+  });
+
+  onDestroy(() => {
+    if (artworkObjectUrl) {
+      URL.revokeObjectURL(artworkObjectUrl);
+      artworkObjectUrl = null;
+    }
   });
 </script>
 
@@ -71,8 +178,7 @@
             alt={artworkAlt}
             class="block h-full w-full object-cover"
             decoding="async"
-            transition:fade={{ duration: 300 }}
-            on:error={(ev) => ev.target.src = defaultArtworkUrl.src}
+            transition:fade={{ duration: 600 }}
           />
         {/key}
       </div>
