@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "geek-orchid";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --color-base-100: #23221f; /* soft soil */
+  --color-base-200: #2f2c29; /* warm bark */
+  --color-base-300: #3c3934; /* stone earth */
+  --color-base-content: #f4eee9;
+
+  /* Primary (Ash Thistle / soft orchid pink) */
+  --color-primary: #e5cedc;
+  --color-primary-content: #2d2328;
+
+  /* Secondary (Grey Olive) */
+  --color-secondary: #8f9491;
+  --color-secondary-content: #171b19;
+
+  /* Accent (Muted lilac-taupe) */
+  --color-accent: #bca3ac;
+  --color-accent-content: #241d21;
+
+  /* Neutral (deep moss-grey) */
+  --color-neutral: #5b5d57;
+  --color-neutral-content: #f4eee9;
+
+  /* Semantic colors */
+  --color-info: #9aa8b4;
+  --color-info-content: #18202a;
+
+  --color-success: #8fa38d;
+  --color-success-content: #101710;
+
+  --color-warning: #c6a98d;
+  --color-warning-content: #2c1e12;
+
+  --color-error: #c97f8f;
+  --color-error-content: #fff6f8;
+
+  /* Border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.85rem;
+
+  /* Base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* Border size */
+  --border: 1px;
+
+  /* Effects */
+  --depth: 1;
+  --noise: 0;
+}
+
+::-moz-selection {
+  color: var(--color-accent);
+  background-color: var(--color-accent-content);
+}
+
+::selection {
+  color: var(--color-accent);
+  background-color: var(--color-accent-content);
+}
+
+@theme {
+  --font-sans: var(--font-noto-sans), sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-noto-sans), sans-serif;
+}

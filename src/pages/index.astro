@@ -1,0 +1,76 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Donate from "../components/Donate.astro";
+import Contact from "../components/Contact.astro";
+import NowPlaying from "../components/NowPlaying.svelte";
+---
+
+<Layout title="Home">
+  <section class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:py-16">
+    <div class="grid gap-8 lg:grid-cols-[1.35fr_0.95fr] lg:gap-10">
+      <div class="min-w-0 space-y-6">
+        <div class="space-y-4">
+          <h1
+            class="max-w-3xl text-balance text-3xl font-black tracking-tight text-base-content sm:text-5xl lg:text-6xl"
+          >
+            Heyo, I'm Emily~
+          </h1>
+          <p
+            class="max-w-2xl text-pretty text-base leading-7 text-base-content/80 sm:text-lg"
+          >
+            I'm an indie developer from South Australia. I'm currently studying <strong
+              >Game Development</strong
+            > alongside completing my <strong
+              >South Australian Certificate of Education</strong
+            > I enjoy doing <strong>photography</strong> and have had the opportunity
+            to work as a photographer for a youth-focused music and arts centre!
+          </p>
+          <p
+            class="max-w-2xl text-pretty text-base leading-7 text-base-content/80 sm:text-lg"
+          >
+            I have a wide knowledge of different programming languages,
+            including a proficiency in <strong>Python</strong> and functional expertise
+            in <strong>C#</strong>, <strong>Go</strong>, <strong
+              >Typescript</strong
+            >, I also have practical experience with <strong>Lua</strong>.
+          </p>
+          <p
+            class="max-w-2xl text-pretty text-base leading-7 text-base-content/80 sm:text-lg"
+          >
+            I believe in a future where <strong>AI</strong> can be ethically to assist
+            developers when the right rules are applied, in my opinion AI should not
+            be treated as a <i>"true"</i> developer and should be an assistant to
+            help developers with pre-existing knowledge build content like UI quicker,
+            although I'm against the concept of "autonomous agents" otherwise known
+            as vibe coding as there's no true oversight or review of what the AI might
+            be building.
+          </p>
+          <p
+            class="max-w-2xl text-pretty text-base leading-7 text-base-content/80 sm:text-lg"
+          >
+            I believe in a more federated and decentralised future and currently
+            self-host my own <a
+              class="link font-bold"
+              href="https://forgejo.org/">Forgejo</a
+            > server under <a class="link" href="https://forge.kemonomimi.moe"
+              >Kemonoforge</a
+            >, a <a class="link font-bold" href="https://gotosocial.org/"
+              >GoToSocial</a
+            > under <a class="link" href="https://social.kemonomimi.moe"
+              >Kemonosocial</a
+            >, and <a class="link font-bold" href="https://matrix.org">Matrix</a
+            > under <a class="link" href="https://chat.kemonomimi.moe"
+              >Kemonochat</a
+            >.
+          </p>
+        </div>
+      </div>
+
+      <aside class="min-w-0 flex flex-col gap-4">
+        <NowPlaying client:load />
+        <Contact />
+        <Donate />
+      </aside>
+    </div>
+  </section>
+</Layout>

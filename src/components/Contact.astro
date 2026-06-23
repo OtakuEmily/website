@@ -1,0 +1,99 @@
+---
+import {
+  Matrix,
+  Mastodon,
+  Forgejo,
+  Bluesky,
+  Revoltdotchat,
+  Pixelfed,
+} from "simple-icons-astro";
+
+const contacts = [
+  {
+    icon: Bluesky,
+    label: "Bluesky",
+    href: "https://bsky.app/profile/did:plc:lbqr5qcbc6jqcxlluekls6gf",
+    handle: "@emily.kemonomimi.moe",
+  },
+  {
+    icon: Forgejo,
+    label: "Kemonoforge",
+    href: "https://forge.kemonomimi.moe/emily",
+    handle: "emily",
+  },
+  {
+    icon: Matrix,
+    label: "Matrix",
+    href: "https://matrix.to/#/@emily:kemonomimi.moe",
+    handle: "@emily:kemonomimi.moe",
+  },
+  {
+    icon: Mastodon,
+    label: "Mastodon",
+    href: "https://social.kemonomimi.moe/@emily",
+    handle: "@emily@kemonomimi.moe",
+  },
+  {
+    icon: Pixelfed,
+    label: "Pixelfed",
+    href: "https://pixelfed.social/otakuemily",
+    handle: "@emily@pixelfed.social",
+  },
+  {
+    icon: Revoltdotchat,
+    label: "Revolt.chat",
+    href: "https://stoat.chat",
+    handle: "OtakuEmily#6373",
+  },
+];
+---
+
+<div class="card border border-base-300 bg-base-100 shadow-sm">
+  <div class="card-body gap-4 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <h2
+        class="card-title text-sm font-semibold uppercase tracking-[0.3em] text-base-content/60"
+      >
+        Contact
+      </h2>
+    </div>
+
+    <ul
+      class="divide-y divide-base-300 overflow-hidden rounded-box border border-base-300 bg-base-200/60"
+      aria-label="Contact methods"
+    >
+      {
+        contacts.map(({ icon: Icon, label, href, handle }) => (
+          <li>
+            {href ? (
+              <a
+                href={href}
+                class="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-base-200/80"
+              >
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-box bg-base-100 text-base-content/80">
+                  <Icon class="h-4 w-4" />
+                </span>
+
+                <div class="min-w-0">
+                  <p class="truncate font-medium text-base-content">{label}</p>
+                  <p class="truncate text-xs text-base-content/70">{handle}</p>
+                </div>
+              </a>
+            ) : (
+              <div class="flex items-center gap-3 px-4 py-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-box bg-base-100 text-base-content/80">
+                  <Icon class="h-4 w-4" />
+                </span>
+
+                <div class="min-w-0">
+                  <p class="truncate font-medium text-base-content">{label}</p>
+                  <p class="truncate text-xs text-base-content/70">{handle}</p>
+                </div>
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

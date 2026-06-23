@@ -1,0 +1,41 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+const { title, class: className } = Astro.props;
+import { Font } from "astro:assets";
+import "../styles/global.css";
+---
+
+<!-- <Font cssVariable="--font-bitcount" /> -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <meta
+      property="og:url"
+      content={new URL(Astro.url.pathname, Astro.site).href}
+      slot="head"
+    />
+    <title>{title}</title>
+    <Font cssVariable="--font-noto-sans" />
+    <slot name="head" />
+  </head>
+  <body class="overflow-x-clip bg-base-200 font-sans text-base-content">
+    <div
+      class="from-base-200 via-base-200 to-base-300 relative isolate min-h-screen overflow-hidden bg-linear-to-br"
+    >
+      <div class="relative flex min-h-screen flex-col">
+        <Navbar />
+        <main class={`flex-1 ${className || ""}`}>
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+{
+  "name": "emily.kemonomimi.moe",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/svelte": "^8.1.2",
+    "@playform/compress": "^0.2.3",
+    "@primer/octicons-react": "^19.28.1",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@uiw/react-heat-map": "^2.3.4",
+    "astro": "^6.4.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "simple-icons-astro": "^16.1.0",
+    "svelte": "^5.56.3",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "daisyui": "^5.5.23",
+    "prettier": "^3.8.4",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}

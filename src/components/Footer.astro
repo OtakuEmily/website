@@ -1,0 +1,119 @@
+---
+import {
+  FeedRepoIcon,
+  SparklesFillIcon,
+  DeviceCameraIcon,
+} from "@primer/octicons-react";
+import { Matrix, Mastodon, Forgejo, Pixelfed } from "simple-icons-astro";
+const year = new Date().getFullYear();
+import { Image } from "astro:assets"
+---
+
+<footer class="border-t border-base-300 bg-base-200 text-base-content">
+  <div class="mx-auto w-full max-w-6xl px-6 py-10">
+    <div class="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr]">
+      <aside class="space-y-4">
+        <div class="flex items-start gap-4">
+          <!-- Avatar and subtext -->
+          <div
+            class="h-16 w-16 flex-none overflow-hidden rounded-full border border-base-300"
+          >
+            <Image
+              src="https://forge.kemonomimi.moe/emily.png"
+              alt="Emily avatar"
+              width="100"
+              height="100"
+              class="block h-full w-full object-cover"
+            />
+          </div>
+          <div>
+            <p class="text-lg font-semibold">
+              Emily <i>(aka OtakuEmily)</i>
+            </p>
+            <p class="text-sm opacity-80">
+              Puppy girl, programmer, photographer, and transit enthusiast.
+            </p>
+          </div>
+        </div>
+
+        <p class="max-w-md text-sm leading-relaxed opacity-90">
+          Copyright &copy; {year} OtakuEmily, Unincorporated. All creative writing
+          is licensed under <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            class="link link-hover">CC BY-NC-SA 4.0</a
+          >.
+        </p>
+      </aside>
+
+      <!-- Explore -->
+      <nav aria-label="Footer navigation" class="space-y-3">
+        <h2 class="footer-title">Explore</h2>
+        <div class="flex flex-col items-start gap-3">
+          <!-- Repositories -->
+          <a
+            href="https://forge.kemonomimi.moe/emily?tab=repositories"
+            class="link link-hover flex items-center gap-2"
+          >
+            <FeedRepoIcon
+              className="inline-block h-[1em] w-[1em] align-middle"
+            />
+            My Repositories
+          </a>
+
+          <!-- Photo gallery -->
+          <a
+            href="https://pixelfed.social/otakuemily"
+            class="link link-hover flex items-center gap-2"
+          >
+            <DeviceCameraIcon
+              className="inline-block h-[1em] w-[1em] align-middle"
+            />
+            Photo Gallery
+          </a>
+        </div>
+      </nav>
+
+      <!-- Social links -->
+      <nav aria-label="Social links" class="space-y-3">
+        <h2 class="footer-title">Socials</h2>
+        <div class="flex flex-col items-start gap-3">
+          <!-- Mastodon -->
+          <a
+            href="https://social.kemonomimi.moe/@emily"
+            class="link link-hover flex items-center gap-2"
+          >
+            <Mastodon class="inline-block h-[1em] w-[1em] align-middle" />
+            Kemonosocial
+          </a>
+
+          <!-- Matrix -->
+          <a
+            href="https://matrix.to/#/@emily:kemonomimi.moe"
+            class="link link-hover flex items-center gap-2"
+          >
+            <Matrix class="inline-block h-[1em] w-[1em] align-middle" />
+            Kemonochat
+          </a>
+
+          <!-- Pixelfed -->
+          <a
+            href="https://pixelfed.social/otakuemily"
+            class="link link-hover flex items-center gap-2"
+          >
+            <Pixelfed class="inline-block h-[1em] w-[1em] align-middle" />
+            Pixelfed
+          </a>
+
+          <!-- Forge -->
+          <a
+            href="https://forge.kemonomimi.moe/emily"
+            class="link link-hover flex items-center gap-2"
+          >
+            <Forgejo class="inline-block h-[1em] w-[1em] align-middle" />
+            Kemonoforge
+          </a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</footer>
