@@ -1,5 +1,6 @@
 ---
 import { Bitcoin, Monero } from "simple-icons-astro";
+import { SponsorTiersIcon } from "@primer/octicons-react";
 
 const shortenWallet = (wallet: string) =>
   `${wallet.slice(0, 12)}…${wallet.slice(-12)}`;
@@ -34,17 +35,14 @@ const donations = [
       class="collapse collapse-arrow border border-base-300 bg-base-200/60"
     >
       <summary
-        class="collapse-title min-h-0 px-4 py-3 text-sm font-semibold text-base-content/80"
+        class="collapse-title min-h-0 px-4 py-3 text-sm font-semibold text-base-content/80 flex items-center gap-2"
       >
-        Notice
+        <SponsorTiersIcon className="inline-block h-[1em] w-[1em] align-middle" /> Notice
       </summary>
       <div
         class="collapse-content px-4 pb-4 pt-0 text-sm leading-6 text-base-content/80"
       >
-        Donations are considered gifts, gifting me money or crypto does NOT mean
-        I'll prioritise an issue or continue to support a project, donations are
-        purely just a way to chip in to help me continue doing the things I
-        love, donate at your own risk! &lt;3
+        Donations are considered monetary gifts, donations do not imply a direct or indirect reward, issues posted by donators will be handled and treated the same as any non-donating person, donations are purely a way to support me to continue doing the things I love doing, donate at your own risk. Thanks for reading~ &lt;3
       </div>
     </details>
 
